@@ -1,20 +1,72 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Pomodoro App
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+<ion-content [fullscreen]="true">
+  <div class="ion-padding"></div>
+  <div class="ion-padding"></div>
+
+
+  <ion-row class="ion-justify-content-center">
+    <svg 
+    id="progress-circle" 
+    width="50vh" 
+    height="50vh" 
+    viewBox="0 0 200 200">
+
+      <defs>
+        <linearGradient id="linearColors1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#ddd6f3"></stop>
+          <stop offset="100%" stop-color="#faaca8"></stop>
+        </linearGradient>
+      </defs>
+
+      <!-- Background  -->
+      <circle
+        cx="50%"
+        cy="50%"
+        [attr.r]="circleR"
+        fill="none"
+        stroke="#f3f3f3"
+        stroke-width="12"
+      ></circle>
+
+      <!-- Progress Timer -->
+      <circle
+        cx="50%"
+        cy="50%"
+        [attr.r]="circleR"
+        fill="none"
+        stroke="url(#linearColors1)"
+        stroke-width="12"
+        stroke-linecap="round"
+        [attr.stroke-dasharray]="circleDasharray"
+        [attr.stroke-dashoffset]="percentageOffset(percent | async)"
+      ></circle>
+
+      <text x="50%" y="55%" class="timer-text">{{ time | async }}</text>
+    </svg>
+  </ion-row>
+
+
+  <div class="ion-padding"></div>
+
+  <ion-row class="ion-justify-content-center">
+    <ion-button *ngIf="state==='stop'"
+    class="button" color="primary" (click)="startTimer(pomodoroDuration)" >
+      Start
+    </ion-button>
+
+
+    <ion-button *ngIf="state==='start'"
+    class="button" color="danger" (click)="stopTimer()" >
+      Stop
+    </ion-button>
+  </ion-row>
+
 </ion-content>
