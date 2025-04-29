@@ -55,7 +55,7 @@ export class HomePage implements OnInit {
     this.state = 'start';
     clearInterval(this.interval); // Clear any existing interval
 
-    this.timer = duration * 3; // Convert minutes to seconds
+    this.timer = duration * 60; // Convert minutes to seconds
     this.updateTimeValue(); // Update immediately to show the initial value
 
     this.interval = setInterval(() => { this.updateTimeValue() }, 1000); // Update every second
@@ -85,7 +85,7 @@ export class HomePage implements OnInit {
       this.time.next(text);
 
       //Percentage update 
-      const totalTime = this.pomodoroDuration * 3;
+      const totalTime = this.pomodoroDuration * 60;
       const percentage = ((totalTime - this.timer) / totalTime) * 100;
       this.percent.next(percentage);
     }
