@@ -58,15 +58,18 @@
 
   <ion-row class="ion-justify-content-center">
     <ion-button *ngIf="state==='stop'"
-    class="button" color="primary" (click)="startTimer(pomodoroDuration)" >
-      Start
+    class="gradient-button" (click)="startTimer(pomodoroDuration)" >
+      Start Pomodoro
     </ion-button>
 
 
-    <ion-button *ngIf="state==='start'"
-    class="button" color="danger" (click)="stopTimer()" >
-      Stop
-    </ion-button>
+    <h2 *ngIf="state==='start' && pomodoroDuration === 25">
+      Pomodoro in progress... 
+    </h2>
+
+    <h2 *ngIf="state==='start' && pomodoroDuration === 5">
+      Taking a break... 
+    </h2>
   </ion-row>
 
 </ion-content>
