@@ -14,15 +14,25 @@
     <ion-card-title>Timer Settings</ion-card-title>
   </ion-card-header>
   <ion-card-content>
+
     <ion-item>
-      <ion-label position="floating">Pomodoro Duration (minutes)</ion-label>
-      <ion-input type="number" [(ngModel)]="pomodoroDuration"></ion-input>
+      <ion-label>Pomodoro Minutes</ion-label>
+      <ion-input type="number" [(ngModel)]="pomodoroMinutes" min="0"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Pomodoro Seconds</ion-label>
+      <ion-input type="number" [(ngModel)]="pomodoroSeconds" min="0" max="59"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Break Duration (minutes)</ion-label>
-      <ion-input type="number" [(ngModel)]="shortBreakDuration"></ion-input>
+      <ion-label>Break Minutes</ion-label>
+      <ion-input type="number" [(ngModel)]="breakMinutes" min="0"></ion-input>
     </ion-item>
+    <ion-item>
+      <ion-label>Break Seconds</ion-label>
+      <ion-input type="number" [(ngModel)]="breakSeconds" min="0" max="59"></ion-input>
+    </ion-item>
+
   </ion-card-content>
 </ion-card>
 
@@ -78,11 +88,11 @@
     </ion-button>
 
 
-    <h2 *ngIf="state==='start' && pomodoroDuration === 25">
+    <h2 *ngIf="state==='start' && isPomodoro">
       Pomodoro in progress... 
     </h2>
 
-    <h2 *ngIf="state==='start' && pomodoroDuration === 5">
+    <h2 *ngIf="state==='start' && !isPomodoro">
       Taking a break... 
     </h2>
   </ion-row>

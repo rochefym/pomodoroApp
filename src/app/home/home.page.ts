@@ -30,6 +30,12 @@ export class HomePage implements OnInit {
   percent = new BehaviorSubject<number>(0);
 
   currentTime: string = '';
+  pomodoroMinutes = 25;
+  pomodoroSeconds = 0;
+
+  breakMinutes = 5;
+  breakSeconds = 0;
+
   isPomodoro = true;
 
 
@@ -50,11 +56,11 @@ export class HomePage implements OnInit {
 
 
 
-  startTimer(duration: number) {
+  startTimer(durationInSeconds: number = this.getCurrentDuration()) {
     this.state = 'start';
     clearInterval(this.interval); // Clear any existing interval
 
-    this.timer = duration * 60; // Convert minutes to seconds
+    this.timer = durationInSeconds; // Convert minutes to seconds
     this.updateTimeValue(); // Update immediately to show the initial value
 
     this.interval = setInterval(() => { this.updateTimeValue() }, 1000); // Update every second
@@ -63,8 +69,11 @@ export class HomePage implements OnInit {
 
   stopTimer() {
     this.state = 'stop';
-    clearInterval(this.interval); // Clear the interval to stop the timer
-    this.time.next('25:00'); // Reset the time to 00:00
+    clearInterval(this.interval);
+
+    const minutes = String('0' + this.pomodoroMinutes).slice(-2);
+    const seconds = String('0' + this.pomodoroSeconds).slice(-2);
+    this.time.next(`${minutes}:${seconds}`);
   }
 
 
@@ -104,7 +113,7 @@ export class HomePage implements OnInit {
 
 
       //Percentage update 
-      const totalTime = this.getCurrentDuration() * 60;
+      const totalTime = this.getCurrentDuration();
       const percentage = ((totalTime - this.timer) / totalTime) * 100;
       this.percent.next(percentage);
 
@@ -133,7 +142,9 @@ export class HomePage implements OnInit {
   }
 
   getCurrentDuration(): number {
-    return this.isPomodoro ? this.pomodoroDuration : this.shortBreakDuration;
+    return this.isPomodoro
+      ? (this.pomodoroMinutes * 60 + this.pomodoroSeconds)
+      : (this.breakMinutes * 60 + this.breakSeconds);
   }
 
   percentageOffset(percent: any) {
