@@ -30,7 +30,7 @@ export class HomePage implements OnInit {
   percent = new BehaviorSubject<number>(0);
 
   currentTime: string = '';
-
+  isPomodoro = true;
 
 
   async ngOnInit() {
@@ -47,7 +47,6 @@ export class HomePage implements OnInit {
       }
     });
   }
-
 
 
 
@@ -105,7 +104,7 @@ export class HomePage implements OnInit {
 
 
       //Percentage update 
-      const totalTime = this.pomodoroDuration * 60;
+      const totalTime = this.getCurrentDuration() * 60;
       const percentage = ((totalTime - this.timer) / totalTime) * 100;
       this.percent.next(percentage);
 
@@ -115,10 +114,10 @@ export class HomePage implements OnInit {
 
       if (this.timer < -1) {
         //NOTIFY WHEN THE POMODORO 25-MIN TIME DURATION IS OVER OR THE 5-MIN BREAK IS OVER
-        if (this.pomodoroDuration == 25) {
+        if (this.isPomodoro) {
           this.createNotification();
-          this.swapDuration(); // Swap from 25 mins to 5 mins
-          this.startTimer(this.pomodoroDuration);
+          this.swapDuration();
+          this.startTimer(this.getCurrentDuration());
         } else {
           this.stopTimer();
           this.swapDuration();
@@ -130,7 +129,11 @@ export class HomePage implements OnInit {
   }
 
   swapDuration() {
-    this.pomodoroDuration = this.pomodoroDuration === 25 ? 5 : 25; // Swap between 25 and 5 minutes
+    this.isPomodoro = !this.isPomodoro;
+  }
+
+  getCurrentDuration(): number {
+    return this.isPomodoro ? this.pomodoroDuration : this.shortBreakDuration;
   }
 
   percentageOffset(percent: any) {
